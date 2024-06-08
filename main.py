@@ -49,13 +49,19 @@ def BuscarUmProduto(id):
         }
 
 @app.post("/produtos/cadastrar/")
-def CadastrarProduto(item: Produto):
-    id = len(db) + 1
-    db[id] = item
-    return {
-        "message": "item criado com sucesso!",
-        "Produto": item,
-        "statusCode": 200
-    }
+def CadastrarProduto(id:int, item: Produto):
+    listaProdutos = db.values()
 
-
+    for produto in listaProdutos:
+        if produto["nome"] == item.nome:
+            return {
+                "mensagem": "Produto já cadastrado",
+                "statusCode": 500
+            }
+        else:
+            db[id] = item
+            return {
+                "message": "item criado com sucesso!",
+                "Produto": item,
+                "statusCode": 200
+            }
