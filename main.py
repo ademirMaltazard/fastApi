@@ -65,3 +65,15 @@ def CadastrarProduto(id:int, item: Produto):
                 "Produto": item,
                 "statusCode": 200
             }
+
+@app.delete('/produtos/excluir/{id}')
+def ExcluirProduto(id: int):
+    try:
+        db.pop(id)
+        return {
+            "message": "Produto Excluido",
+            "idProduto": id,
+            "statusCode": 200
+        }
+    except Exception as err:
+        return {"error": f"{err}"}
